@@ -1,5 +1,5 @@
 ---
-title: "Group Project"
+title: "An intro to phylogenetic tree construction"
 author: "Brandon Güell, Dani Antos, Isabella Muratore"
 date: "11/7/2017"
 output: 
