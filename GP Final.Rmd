@@ -1,67 +1,100 @@
 ---
 title: "Group Project"
-author: "Brandon Güell, Dani Antos, Isabella, Muratore"
+author: "Brandon Güell, Dani Antos, Isabella Muratore"
 date: "11/7/2017"
-output: html_document
-toc: true
-toc_float: true
-number_sections: true
-Preliminaries:
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
-To start out these are the packages we need:
-````{r}
-install.packages("adegenet", dep=TRUE)
-install.packages("phangorn", dep=TRUE)
-```
-Then lets load the packages using:
+# Preliminaries:
+To begin, please start by installing the following packages and their dependents using the code below:
+
+* install.packages("adegenet", dep=TRUE)
+* install.packages("phangorn", dep=TRUE)
+
+Then lets load the following packages which we will use in throughout the module:
+
+* {stats} - super cool dope rad common statistical analysis package 
+* {ade4} - awesome functions to analyse ecological/environmental data in "Euclidean Exploratory" framework
+* {ape} - not as in primate, as in analysis & computation of phylo trees from DNA sequences
+* {adegenet} - woohooo package for multivariate analysis of genetic markers data
+* {phangorn} - phylo whaaaa? phylogenetic analysis package!
+
+
+# Objectives
+> In this module, we will learn about phylogenetic trees and how to recontruct them using three different methods in R. We will download and manipulate a small data set on seasonal influenza isoaltes samples in the US from 1993-2008. We will describe and show examples of how each of these approaches work and how to interpret and visualize the results for each using different aspects of phylo tree aesthetics.
+
+
+# Introduction
+Phylogenetic (phylo) trees..."I think"
+
+![](https://i.stack.imgur.com/ahJk5.jpg)
+
+Phylo trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. In phylogenetics, phylo tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences, in order to....
+
+## Types of phylo trees {.tabset}
+### Rooted
+Rooted phylo trees......
+![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1003.gif)
+
+### Unrooted
+Unrooted phylo trees.....
+![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
+
+### Different tree drawing methods
+Phylo trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
+![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
+
+### Phylo relationships mono and para and poly phyletic ness and relationships...
+blah blah blah.....
+
+## Three methods for phylo tree reconstruction discussed here:{.tabset}
+
+### Distance-based
+    explanation...
+    FIGURES
+
+### Maximum parsimony
+    explanation...
+    FIGURES
+
+### Likelihood-based
+    explanation...
+    FIGURES
+
+
+
+# Useful skills we will go over today:
+* stuff
+* stuff
+* stuff
+* stuff
+* stuff
+
+*********************************
+
+# Read in the DNA sequences of seasonal influenza (H3N2)
+This data can be downloaded from Genbank [here](http://www.ncbi.nlm.nih.gov/genbank/). The data is organized into two files: 1) the [DNA sequences](http://adegenet.r-forge.r-project.org/files/usflu.fasta) and 2) the [annotations](http://adegenet.r-forge.r-project.org/files/usflu.annot.
+csv). We'll start by loading the DNA sequences data using the function fasta2DNAbin() from the adegenet package. Let's name this datafram dna. We can call this dataframe and see that it is organized in a matrix in binary format and contains 80 DNA sequences...
 ```{r}
-library(stats)
-library(ade4)
-library(ape)
 library(adegenet)
-library(phangorn)
-```
-
-#Objectives
-In this module, we will develop phylogenetic tree making skills......
-
-#Introduction
-Phylogenetic treesa re useful......
-
-The three types of tree making methods we will discuss are:
-
-MAKE TABS for each three of the three methods!!!!
-
-1) XXXX----- explanation
-
-2) XXX---- explanation
-
-3) XX--- explanation
-
-
-#Useful skills we will go over today:
--list of stuff
--list 
--list
--list
-
-#Read in the dataset from XXXXXX using this chunk:
-```{r}
 dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
+dna
 ```
 
-then lets read in another thing....
+We can read in the annotation file in R using the following code:
 ```{r}
 annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv", header=TRUE, row.names=1)
 ```
 
 
 
-#Additional Resources and Useful Links
+# Additional Resources and Useful Links
 -links
 -links
 -links
 
-#Citations
+# Citations
 -citations of stuff we used
