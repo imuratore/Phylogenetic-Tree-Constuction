@@ -1,0 +1,67 @@
+---
+title: "Group Project"
+author: "Brandon Güell, Dani Antos, Isabella, Muratore"
+date: "11/7/2017"
+output: html_document
+toc: true
+toc_float: true
+number_sections: true
+Preliminaries:
+---
+
+To start out these are the packages we need:
+````{r}
+install.packages("adegenet", dep=TRUE)
+install.packages("phangorn", dep=TRUE)
+```
+Then lets load the packages using:
+```{r}
+library(stats)
+library(ade4)
+library(ape)
+library(adegenet)
+library(phangorn)
+```
+
+#Objectives
+In this module, we will develop phylogenetic tree making skills......
+
+#Introduction
+Phylogenetic treesa re useful......
+
+The three types of tree making methods we will discuss are:
+
+MAKE TABS for each three of the three methods!!!!
+
+1) XXXX----- explanation
+
+2) XXX---- explanation
+
+3) XX--- explanation
+
+
+#Useful skills we will go over today:
+-list of stuff
+-list 
+-list
+-list
+
+#Read in the dataset from XXXXXX using this chunk:
+```{r}
+dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
+```
+
+then lets read in another thing....
+```{r}
+annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv", header=TRUE, row.names=1)
+```
+
+
+
+#Additional Resources and Useful Links
+-links
+-links
+-links
+
+#Citations
+-citations of stuff we used
