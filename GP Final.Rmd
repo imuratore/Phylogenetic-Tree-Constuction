@@ -57,8 +57,7 @@ blah blah blah.....
     FIGURES
 
 ### Maximum parsimony
-    explanation...
-    FIGURES
+Maximum parisomy phylo trees aim to minimize the number of character-state changes (i.e. produces the shortes possible tree). 
 
 ### Likelihood-based
     explanation...
