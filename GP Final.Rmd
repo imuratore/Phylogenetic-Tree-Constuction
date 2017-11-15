@@ -1,5 +1,5 @@
 ---
-title: "An intro to phylogenetic tree construction"
+title: "An Intro to Phylogenetic Tree Construction in R"
 author: "Brandon Güell, Dani Antos, Isabella Muratore"
 date: "11/7/2017"
 output: 
@@ -14,7 +14,7 @@ To begin, please start by installing the following packages and their dependents
 * install.packages("adegenet", dep=TRUE)
 * install.packages("phangorn", dep=TRUE)
 
-Then lets load the following packages which we will use in throughout the module:
+Make sure to load the following packages which we will use throughout the module:
 
 * {stats} - super cool dope rad common statistical analysis package 
 * {ade4} - awesome functions to analyse ecological/environmental data in "Euclidean Exploratory" framework
@@ -24,7 +24,8 @@ Then lets load the following packages which we will use in throughout the module
 
 
 # Objectives
-> In this module, we will learn about phylogenetic trees and how to recontruct them using three different methods in R. We will download and manipulate a small data set on seasonal influenza isoaltes samples in the US from 1993-2008. We will describe and show examples of how each of these approaches work and how to interpret and visualize the results for each using different aspects of phylo tree aesthetics.
+
+> In this module, we will learn about phylogenetic trees and how to recontruct them using three different methods in R. We will download and manipulate a small data set on seasonal influenza isolate samples in the US from 1993-2008. We will describe and show examples of how each of these approaches work and how to interpret and visualize the results for each using different aspects of phylo tree aesthetics.
 
 
 # Introduction
@@ -33,6 +34,8 @@ Phylogenetic (phylo) trees..."I think"
 ![](https://i.stack.imgur.com/ahJk5.jpg)
 
 Phylo trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. In phylogenetics, phylo tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences, in order to....
+
+*****
 
 ## Types of phylo trees {.tabset}
 ### Rooted
@@ -57,13 +60,13 @@ blah blah blah.....
     FIGURES
 
 ### Maximum parsimony
-Maximum parisomy phylo trees aim to minimize the number of character-state changes (i.e. produces the shortes possible tree). 
+Maximum parisomy phylo trees aim to minimize the number of character-state changes in a tree. Thus, this usually produces the simplest possible trees with the least amount of branches (i.e. character-state changes). The method is composed of 1) initiating an algorithm using a tree and 2) making small changes to the tree by simplifying relationships until we are left with the most parsimonious tree and no futher simplifications can be made.
 
 ### Likelihood-based
     explanation...
     FIGURES
 
-
+*****
 
 # Useful skills we will go over today:
 * stuff
@@ -72,7 +75,9 @@ Maximum parisomy phylo trees aim to minimize the number of character-state chang
 * stuff
 * stuff
 
-*********************************
+*****
+*****
+*****
 
 # Read in the DNA sequences of seasonal influenza (H3N2)
 This data can be downloaded from Genbank [here](http://www.ncbi.nlm.nih.gov/genbank/). The data is organized into two files: 1) the [DNA sequences](http://adegenet.r-forge.r-project.org/files/usflu.fasta) and 2) the [annotations](http://adegenet.r-forge.r-project.org/files/usflu.annot.
@@ -89,11 +94,84 @@ annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv",
 ```
 
 
+# Distance-based methods
+
+# Maximum parsimony
+
+> Note: if you haven't already, make sure to install the package "phangorn". 
+
+To use the maximum parsimony phylo tree reconstruction methods, we will need a tree in "ape"'s format: as a phylo object and the original DNA data sequences in a format from the "phangorn" package: phyDat. Let's begin!
+
+```{r}
+library(phangorn)
+dna2 <- as.phyDat(dna) #assign the original dna sequences data as a phyDat object...
+class(dna2) #ensure that new dataframe "dna2" is in phyDat format
+dna2
+```
+
+Next, we will reconstruct a tree using the nj() function as we saw before.
+```{r}
+tre.ini <- nj(dist.dna(dna,model="raw"))
+tre.ini
+```
+
+We can then measure this tree's parsimony using the function parsimony() from the "phangorn" package.
+```{r}
+?parsimony()
+parsimony(tre.ini, dna2)
+```
+
+Lastly, the function which which will algorithmically make our tree the most parsimonious possible is the otim.parsimony() function. Lets use it below on our newly reconstructed tree and see what happens.
+```{r}
+tre.pars <- optim.parsimony(tre.ini, dna2)
+tre.pars
+
+parsimony(tre.pars, dna2)
+```
+The result is a very similar tree to the one before, but its final "p-score" is 2 values lower than before. Thus, although not by much, this newly made "tre.pars" phylo tree is our most parsimonious tree.
+Again, we can plot this tree similarly as before:
+```{r}
+myPal <- colorRampPalette(c("red","yellow","green","blue"))
+
+library(ape)
+plot(tre.pars, type="unr", show.tip=FALSE, edge.width=2)
+title("Maximum-parsimony tree")
+tiplabels(tre.pars$tip.label, bg=transp(num2col(annot$year, col.pal=myPal),.7), cex=.5, fg="transparent")
+temp <- pretty(1993:2008, 5)
+legend("bottomright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=2, bg=transp("white"))
+```
+Again, our tree is unrooted and has no branch lengths. We can likely attribute the similarity in results in our parsimonious tree to the other methods we used before to the fact that there is little divergence between the sequences in our data.
+
+# Likelihood-based
+
+
+
+*****
 
 # Additional Resources and Useful Links
--links
--links
--links
+* [Introduction to phylogenetics using R](http://adegenet.r-forge.r-project.org/files/MSc-intro-phylo.1.1.pdf)
+* [Phylogenetic trees in R: Lars Schmitz](http://schmitzlab.info/phylo.html)
+* [Data wrangling cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [Rmarkdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+*****
 
 # Citations
--citations of stuff we used
+1. S. Dray and A.-B. Dufour. The ade4 package: implementing the duality diagram
+for ecologists. Journal of Statistical Software, 22(4):1–20, 2007.
+2. T. Jombart. adegenet: a R package for the multivariate analysis of genetic
+markers. Bioinformatics, 24:1403–1405, 2008.
+3. T. Jombart and I. Ahmed. adegenet 1.3-1: new tools for the analysis of genomewide
+snp data. Bioinformatics, 27:3070–3071, 2011.
+4. Scot A Kelchner and Michael A Thomas. Model use in phylogenetics: nine key
+questions. Trends Ecol Evol, 22(2):87–94, Feb 2007.
+5. E. Paradis, J. Claude, and K. Strimmer. APE: analyses of phylogenetics and
+evolution in R language. Bioinformatics, 20:289–290, 2004.
+6. R Development Core Team. R: A Language and Environment for Statistical
+Computing. R Foundation for Statistical Computing, Vienna, Austria, 2011.
+ISBN 3-900051-07-0.
+7. Klaus Peter Schliep. phangorn: phylogenetic analysis in r. Bioinformatics,
+27(4):592–593, Feb 2011.
+8. K. Tamura and M. Nei. Estimation of the number of nucleotide substitutions in
+the control region of mitochondrial dna in humans and chimpanzees. Mol Biol
+Evol, 10(3):512–526, May 1993.
