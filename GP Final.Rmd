@@ -47,20 +47,17 @@ One such conflict has been called ["Parsimony-gate"](https://www.wired.com/2016/
 
 ## Types of phylo trees {.tabset}
 ### Rooted
-Rooted phylo trees......
+Rooted phylo trees imply relationships about the most recent common ancestor. This information is given by showing an "outgroup" which is the most basal extant ancestor in a given tree. Each node thus represents the most recent common ancestor for each set of taxa which meet at that node.
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1003.gif)
 
 ### Unrooted
-Unrooted phylo trees.....
+Unrooted phylo trees are similar to rooted trees in that each node represents the most recent comon ancestor between groups. However, it differs in that it does not give information or imply any ancentral "root" or basal outgroup.
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
 
 ### Tree Drawing Styles
 Phylo trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
 ![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
 
-### Phylogenetic Trees & Relationships
-relationships mono and para and poly phyletic ness and relationships...
-blah blah blah.....
 
 ## Three methods for phylo tree reconstruction discussed here:{.tabset}
 
@@ -78,11 +75,11 @@ Maximum parisomy phylo trees aim to minimize the number of character-state chang
 *****
 
 # Useful skills we will go over today:
-* stuff
-* stuff
-* stuff
-* stuff
-* stuff
+* Importing data on DNA sequences in a phylogenetic tree format
+* Phylogenetic tree reconstruction using various methods in R
+* Plotting and interpret results from trees constructed
+* Test for molecular clock and estimates rates of evolution
+* Use bootstrapping for examining tree topology/organization reliability
 
 *****
 *****
