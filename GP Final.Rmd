@@ -47,6 +47,8 @@ However as biological observations became more complex, most people switched ove
 
 Towards the latter half of the 20th century, most biologist began to agree that Bayesian methods created more realistic trees, due to their relative resistance to problems such as long-branch attraction, among other issues. The advent of computing technology once again made these methods feasible. However, many scientists bitterly resisted this transition, resulting in intellectual conflicts. 
 
+### Nerd Drama
+
 One such conflict has been called ["Parsimony-gate"](https://www.wired.com/2016/02/twitter-nerd-fight-reveals-a-long-bizarre-scientific-feud/). This involved the traditionalist editors of the well-known journal "Cladistics" publishing an editorial discouraging the use of Bayesian methods in journal submissions when parsimony could be used. Subsequently, many biologists criticized the article on twitter, only to receive aggressive responses from the original author. 
 
 *****
@@ -156,7 +158,15 @@ Again, our tree is unrooted and has no branch lengths. We can likely attribute t
 
 # Maximum Likelihood-based
 
-Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. 
+Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. Mathematically this is represented as:
+
+P(D|M)
+
+Where P = probability, D = observed data, and M = model
+
+A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased. 
+
+Let's prepare to build a maximum likelihood tree.
 
 This function takes a vector of color labels and makes them applicable to groups on a tree
 ```{r}
@@ -174,7 +184,7 @@ annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv",
 ```
 First, we build a simple neighbor-joining tree that we can hand to the ape package in order to turn it into maximum likelihood
 
-The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyramidine to pyramidine) and transversions (purine to pyramidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence.
+The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyramidine to pyramidine) and transversions (purine to pyramidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence. Alternatives to this model include the Jukes-Cantor model in which all types of nucleotide substitutions are equally probable. 
 ```{r}
 tre.ini <- nj(dist.dna(dna,model="TN93"))
 ```
@@ -246,8 +256,6 @@ temp <- pretty(1993:2008, 5)
 legend("topright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=2)
 
 ```
-
-
 
 
 *****
