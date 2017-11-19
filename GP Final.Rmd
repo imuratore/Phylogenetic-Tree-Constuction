@@ -19,7 +19,7 @@ Make sure to load the following packages which we will use throughout the module
 * {stats} - super cool dope rad common statistical analysis package 
 * {ade4} - awesome functions to analyse ecological/environmental data in "Euclidean Exploratory" framework
 * {ape} - not as in primate, as in analysis & computation of phylo trees from DNA sequences
-* {adegenet} - woohooo package for multivariate analysis of genetic markers data
+* {adegenet} - package for multivariate analysis of genetic markers data
 * {phangorn} - phylo whaaaa? phylogenetic analysis package!
 
 
@@ -59,19 +59,18 @@ Rooted phylo trees imply relationships about the most recent common ancestor. Th
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1003.gif)
 
 ### Unrooted
-Unrooted phylo trees are similar to rooted trees in that each node represents the most recent comon ancestor between groups. However, it differs in that it does not give information or imply any ancentral "root" or basal outgroup.
+Unrooted phylo trees are similar to rooted trees in that each node represents the most recent common ancestor between groups. However, it differs because the unrooted tree does not give information or imply any ancentral "root" or basal outgroup.
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
 
 ### Tree Drawing Styles
-Phylo trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
+Phylo trees can also be drawn differently. The trees below all show the same relationships between the taxa, just in different aesthetically pleasing ways.
 ![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
 
 
 ## Three methods for phylo tree reconstruction discussed here:{.tabset}
 
 ### Distance-based
-    explanation...
-    FIGURES
+Distance based phylogenetic trees are pretty much exactly what they sound like: we find the "genetic distance" between pairs of taxa and cluster the species using the distances. Pairs with shorter distances are clustered more closely together than pairs with large distances. Because making distance-based trees is usually requires an algorithm to compute the pairwise distances, the trees produced can be rooted or unrooted depending on the algorithm used (we'll go into this a litter later). **Advantages** of this method? It's fast and flexible. **Disadvantages**? The tree produced can change based on the algorithm we choose, and we can't test to make sure that we're using the best model, so the tree can be inaccurate.
 
 ### Maximum parsimony
 Maximum parisomy phylo trees aim to minimize the number of character-state changes in a tree. Thus, this usually produces the simplest possible trees with the least amount of branches (i.e. character-state changes). The method is composed of 1) initiating an algorithm using a tree and 2) making small changes to the tree by simplifying relationships until we are left with the most parsimonious tree and no futher simplifications can be made.
@@ -184,7 +183,7 @@ annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv",
 ```
 First, we build a simple neighbor-joining tree that we can hand to the ape package in order to turn it into maximum likelihood
 
-The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyramidine to pyramidine) and transversions (purine to pyramidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence. Alternatives to this model include the Jukes-Cantor model in which all types of nucleotide substitutions are equally probable. 
+The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyrimidine to pyrimidine) and transversions (purine to pyrimidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence. Alternatives to this model include the Jukes-Cantor model in which all types of nucleotide substitutions are equally probable. 
 ```{r}
 tre.ini <- nj(dist.dna(dna,model="TN93"))
 ```
