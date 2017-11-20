@@ -33,14 +33,8 @@ Phylogenetic (phylo) trees..."I think"
 
 ![](https://i.stack.imgur.com/ahJk5.jpg)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 Phylo trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. In phylogenetics, phylo tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences.
-=======
-=======
 
-
->>>>>>> ba964244667c0931288606ede03bf7b9f63a4186
 Phylogenetic trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. Phylogenetic tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences, previously morphological characters, in order to estimate common ancestors between taxa and sometimes times of divergence. Trees can represent evolutionary divergence according to information from entire genomes, or from one gene or a set of genes. Commonly, the so-called DNA barcode, part of the sequence for the highly conserved cytochrome oxidase subunit one has been single-handedly used to construct trees. This electron transport chain component is useful because very few mutations persist in fit organisms, so those that stick are very solid predictors of differences between lineages. 
 
 Almost all phylogenetics methods start with a distance matrix in which differences between taxa are estimated by summing discrepancies in nucleotides or quantified morphological characters:
@@ -48,7 +42,6 @@ Almost all phylogenetics methods start with a distance matrix in which differenc
 ![A distance matrix](http://rosalind.info/media/distance_based_phylogeny.png)
 
 This matrix is the direct basis for the simplest kind of tree, called UPGMA, or unweighted pair group method using arithmetic mean. Another form of simple tree building is called neighbor joining and is considered more reliable. Neighbor joining mehtods produce unrooted trees unless you take further steps to root the tree, while UPGMA produced a rooted tree. Perhaps the most important difference between these two is that UPGMA assumes a constant rate of evolution AKA nucleotide substitution everywhere and over time. Neighbor joining does not make this assumption. 
->>>>>>> 5a8d77f9786f1c5b044284684791a13bb3467daa
 
 When phylogenetics first came into vogue, most scientists used small sets of morphological features to predict the relationships between small groups of organisms and most of them built Bayesian trees, based upon Bayes' Theorem. 
 
