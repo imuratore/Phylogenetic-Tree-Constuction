@@ -82,6 +82,7 @@ Unrooted phylo trees are similar to rooted trees in that each node represents th
 
 ### Tree Drawing Styles
 Phylo trees can also be drawn differently. The trees below all show the same relationships between the taxa, just in different aesthetically pleasing ways.
+
 ![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
 
 
