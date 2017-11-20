@@ -33,6 +33,8 @@ Phylogenetic (phylo) trees..."I think"
 
 ![](https://i.stack.imgur.com/ahJk5.jpg)
 
+
+
 Phylogenetic trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. Phylogenetic tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences, previously morphological characters, in order to estimate common ancestors between taxa and sometimes times of divergence. Trees can represent evolutionary divergence according to information from entire genomes, or from one gene or a set of genes. Commonly, the so-called DNA barcode, part of the sequence for the highly conserved cytochrome oxidase subunit one has been single-handedly used to construct trees. This electron transport chain component is useful because very few mutations persist in fit organisms, so those that stick are very solid predictors of differences between lineages. 
 
 Almost all phylogenetics methods start with a distance matrix in which differences between taxa are estimated by summing discrepancies in nucleotides or quantified morphological characters:
@@ -59,11 +61,11 @@ Rooted phylo trees imply relationships about the most recent common ancestor. Th
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1003.gif)
 
 ### Unrooted
-Unrooted phylo trees are similar to rooted trees in that each node represents the most recent comon ancestor between groups. However, it differs in that it does not give information or imply any ancentral "root" or basal outgroup.
+Unrooted phylogenetic trees are similar to rooted trees in that each node represents the most recent comon ancestor between groups. However, it differs in that it does not give information or imply any ancentral "root" or basal outgroup.
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
 
 ### Tree Drawing Styles
-Phylo trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
+Phylogenetic trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
 ![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
 
 
@@ -94,8 +96,10 @@ Maximum parisomy phylo trees aim to minimize the number of character-state chang
 *****
 
 # Read in the DNA sequences of seasonal influenza (H3N2)
+We're using the DNA sequences for a set of different influenza strains collected from 1993 to 2008 in the US (get your flu shot every year!)
+
 This data can be downloaded from Genbank [here](http://www.ncbi.nlm.nih.gov/genbank/). The data is organized into two files: 1) the [DNA sequences](http://adegenet.r-forge.r-project.org/files/usflu.fasta) and 2) the [annotations](http://adegenet.r-forge.r-project.org/files/usflu.annot.
-csv). We'll start by loading the DNA sequences data using the function fasta2DNAbin() from the adegenet package. Let's name this datafram dna. We can call this dataframe and see that it is organized in a matrix in binary format and contains 80 DNA sequences...
+csv). We'll start by loading the DNA sequences data using the function fasta2DNAbin() from the adegenet package. FASTA is a universally used sequence file format that is here converted to the format used by the phangorn package. Let's name this datafram dna. We can call this dataframe and see that it is organized in a matrix in binary format and contains 80 DNA sequences...
 ```{r}
 library(adegenet)
 dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
@@ -143,10 +147,14 @@ tre.pars
 parsimony(tre.pars, dna2)
 ```
 The result is a very similar tree to the one before, but its final "p-score" is 2 values lower than before. Thus, although not by much, this newly made "tre.pars" phylo tree is our most parsimonious tree.
-Again, we can plot this tree similarly as before:
+Again, we can plot this tree similarly as before.
+
+This function takes a vector of color labels and makes them applicable to groups on a tree
 ```{r}
 myPal <- colorRampPalette(c("red","yellow","green","blue"))
+```
 
+```{r}
 library(ape)
 plot(tre.pars, type="unr", show.tip=FALSE, edge.width=2)
 title("Maximum-parsimony tree")
@@ -166,22 +174,8 @@ Where P = probability, D = observed data, and M = model
 
 A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased. 
 
-Let's prepare to build a maximum likelihood tree.
+Let's prepare to build a maximum likelihood tree. Import the influenza data set and annotations from above if you haven't already.
 
-This function takes a vector of color labels and makes them applicable to groups on a tree
-```{r}
-myPal <- colorRampPalette(c("red","yellow","green","blue"))
-```
-Loading DNA sequences for a set of different influenza strains collected from 1993 to 2008 in the US (get your flu shot every year!)
-
-FASTA is a universally used sequence file format that is here converted to the format used by the phangorn package
-```{r}
-dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
-```
-Loading annotations to mark the identity of the sequences
-```{r}
-annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv", header=TRUE, row.names=1)
-```
 First, we build a simple neighbor-joining tree that we can hand to the ape package in order to turn it into maximum likelihood
 
 The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyramidine to pyramidine) and transversions (purine to pyramidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence. Alternatives to this model include the Jukes-Cantor model in which all types of nucleotide substitutions are equally probable. 
@@ -202,11 +196,13 @@ Since we think there is a problem with missing bases, we search for any bases th
 ```{r}
 na.posi <- which(apply(as.character(dna),2, function(e) any(!e %in% c("a","t","g","c"))))
 ```
+
 Due to the nature of sequencing techniques, sometimes sequences have poorer quality in a particular area such as the very beginning or very end. Therefore, we will plot the frequence of non-ATCG bases over their position in the sequence. 
 ```{r}
 temp <- apply(as.character(dna),2, function(e) sum(!e %in% c("a","t","g","c")))
 plot(temp, type="l", col="blue", xlab="Position in HA segment", ylab="Number of NAs")
 ```
+
 Due to the majority of the missing data appearing in the start of the sequence, we can infer that this was caused to differences in overall length between strains due to sequence divergence (AKA your flu shot from 2 years ago will not work!!)
 
 We can exclude the missing data
