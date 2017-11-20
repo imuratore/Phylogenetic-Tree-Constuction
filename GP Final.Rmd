@@ -67,13 +67,6 @@ Unrooted phylogenetic trees are similar to rooted trees in that each node repres
 ![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
 
 ### Tree Drawing Styles
-Phylogenetic trees can also be drawn differently. The trees below all show the same realtionsihps between the taxa, just in different aestheticly pleasing ways.
-
-Unrooted phylo trees are similar to rooted trees in that each node represents the most recent common ancestor between groups. However, it differs because the unrooted tree does not give information or imply any ancentral "root" or basal outgroup.
-
-![](https://www.ncbi.nlm.nih.gov/Class/NAWBIS/Modules/Phylogenetics/images/phylo1002.gif)
-
-### Tree Drawing Styles
 Phylo trees can also be drawn differently. The trees below all show the same relationships between the taxa, just in different aesthetically pleasing ways.
 
 ![](http://ksuweb.kennesaw.edu/~jdirnber/InvertZoo/LecIntro/trees2.jpg)
