@@ -419,8 +419,6 @@ tre.ini</code></pre>
 ## 
 ## Unrooted; includes branch lengths.</code></pre>
 <p>We can then measure this tree’s parsimony using the function parsimony() from the “phangorn” package.</p>
-<pre class="r"><code>?parsimony()</code></pre>
-<pre><code>## starting httpd help server ... done</code></pre>
 <pre class="r"><code>parsimony(tre.ini, dna2)</code></pre>
 <pre><code>## [1] 422</code></pre>
 <p>Lastly, the function which which will algorithmically make our tree the most parsimonious possible is the otim.parsimony() function. Lets use it below on our newly reconstructed tree and see what happens.</p>

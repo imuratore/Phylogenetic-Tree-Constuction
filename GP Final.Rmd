@@ -144,7 +144,6 @@ tre.ini
 
 We can then measure this tree's parsimony using the function parsimony() from the "phangorn" package.
 ```{r}
-?parsimony()
 parsimony(tre.ini, dna2)
 ```
 
