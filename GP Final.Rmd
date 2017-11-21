@@ -124,6 +124,186 @@ annot
 
 # Distance-based methods
 
+Just to recap on some background that I mentioned earlier: Distance-based trees are produced by calculating the genetic distances between pairs of taxa, followed by hierarchical clustering that creates the actual "tree" look. While there are tons of algorithms to choose from when computing distances, there are two popular clustering methods that are used most frequently. 
+
+1. UPGMA- this is the simplest method for constructing trees, assumes the same evolutionary speed for all lineages (which can be a disadvantage); all leaves have the same distance from the root (creates ultrametric tree)
+
+2. Neighbor-joining- taking the two closest nodes of the tree and defines them as neighbors; you keep doing this until all of the nodes have been paired together
+
+The following figure can help visually distinguish UPGMA methods from neighbor-joining methods (you can ignore single linkage and complete linkage)
+
+![](https://openi.nlm.nih.gov/imgs/512/123/2277402/PMC2277402_1471-2105-9-90-5.png)
+
+There are 3 basic steps for Distance-Based Phylogenies:
+
+1. find genetic distances for pairs of individuals (in our case, isolates)
+
+2. make a tree using these distances
+
+3. evaluate the relevance of the tree
+
+##Step 1
+```{r step 1}
+library(ape)
+D <- dist.dna(dna, model = "TN93")
+length(D) #number of pairwise distances, computed as n(n-1)/2
+temp <- as.data.frame(as.matrix(D))
+table.paint(temp, cleg=0, clabel.row=.5, clabel.col=.5) #darker shades of gray mean a larger distance # you can also make cool color plots but they're much more complicated because they use the image() function
+#we can start to see a pattern because the data is ordered by year, but we can't really make any conclusions yet
+```
+New functions:
+
+- dist.dna() from {ape} package: this literally just makes a matrix of pairwise distances from the DNA we give it, super easy; "TN93" is just the type of evolutionary model we're using, this particular one allows for different transition rates, heterogenous base frequencies, and variation of substitution rate at the same site
+
+That was step 1 in its entirety, so it's pretty easy because we have a nice function that computes all of our distances for us. The darker colors indicate larger distances, so, while we have some data about the genetic differences between a pair of species, we aren't quite ready to draw massive conclusions yet.
+
+##Step 2
+Building the tree generally just gives us a better visual understanding of what's going on. As I mentioned previously, the figure from Step 1 shows us that there is a trend or pattern of some sort, but it's difficult to get more than that just from the figure. On the other hand, we can't always assume that a tree is the best or most efficient representation of our genetic distances.
+
+R has a ton of algorithm options for us to choose from to make our tree (New functions):
+
+- nj() from {ape} package: classic Neighbor-Joining algorithm
+
+- bionj() from {ape} package: Neighbor-Joining 2.0 (basically)
+
+- fastme.bal() AND fastme.ols() both from {ape} package: minimum evolution algorithm (to my understanding, usually looks the same as neighbor joining, topology shows the smallest value of branch sums)
+
+- hclust() from {stats} package (a base package in R): classical hierarchical clustering, including UPGMA and others
+
+```{r step 2}
+tre <- nj(D)
+class(tre) #all trees created using {ape} package will be of class phylo
+tre <- ladderize(tre)
+tre # tells us what the tree will look like but doesn't show the actual construction
+plot(tre, cex = 0.6)
+title("A Simple NJ Tree")
+# or 
+h_cluster <- hclust(D, method = "average", members = NULL) # method = average is used for UPGMA, members can be equal to NULL or a vector with a length of size D
+plot(h_cluster, cex = 0.6)
+```
+
+Feel free to try the other three functions out on your own! How do they compare to these two examples? Do you think one is better than the rest?
+
+The two previous examples show the simplest types of trees that we can make, but you can also add annotations, labels, and colors to make the tree easier to interpret. 
+
+*EXAMPLE*: we can use colors to represent different years
+```{r trees with color}
+plot(tre, show.tip=FALSE) # gets rid of the labels on the end, refer to the first tree depicted above
+title("Unrooted NJ tree")
+myPal <- colorRampPalette(c("red","yellow","green","blue"))
+tiplabels(annot$year, bg=num2col(annot$year, col.pal=myPal), cex=.5) #we use the annot dataset to get our years
+temp <- pretty(1993:2008, 5)
+legend("bottomleft", fill=num2col(temp, col.pal=myPal), leg=temp, ncol=2)
+```
+New functions:
+
+- colorRampPalette() in {grDevices} package: takes a certain set of colors and returns new color palettes or color "ramps" to map an interval
+
+- tiplabels() in {ape} package: adds labels to or near nodes/edges of a tree
+
+- num2col() in {adegenet} package: can translate variables onto a color scale
+
+- pretty(): computes a sequence of equally spaced values that encompass the range of x values
+
+The tree is now easy to read with the color coding, but the location of some of the isolates can be deceiving due to the unrooted nature of the tree. We can re-draw the tree like this:
+```{r redrawn unrooted tree}
+plot(tre, type = "unrooted", show.tip = FALSE)
+title("Unrooted NJ Tree")
+tiplabels(tre$tip.label, bg = num2col(annot$year, col.pal = myPal), cex = 0.5)
+```
+
+Or, even better, we can make a root for the tree. The best rooting would be any of the oldest isolates. We can use the annot dataset again.
+```{r rooting tree}
+head(annot)
+tre2 <- root(tre, out = 1)
+tre2 <- ladderize(tre2)
+plot(tre2, show.tip=FALSE, edge.width=2)
+title("Rooted NJ tree")
+tiplabels(tre$tip.label, bg=transp(num2col(annot$year, col.pal=myPal),.7), cex=.5, fg="transparent")
+axisPhylo()
+temp <- pretty(1993:2008, 5)
+legend("topright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=2)
+```
+New  functions:
+
+- root() fomr {ape} package: reroots a phylo tree using a specific outgroup
+
+- axisPhylo() from {ape} package: adds a scaled axis on the side of a plot
+
+##Step 3
+Because there are so many different algorithms to choose from when constructing our tree, we have to make sure the one we chose was appropriate for our dataset, using our original distance matrix (in this case, D). This is much easier than it sounds, and just requires some plots and correlation calculations. 
+```{r step 3 NJ tree}
+x <- as.vector(D)
+y <- as.vector(as.dist(cophenetic(tre2)))
+plot(x, y, xlab="original pairwise distances", ylab="pairwise distances on the tree", main="Is NJ appropriate?", pch=20, col=transp("black",.1), cex=3)
+abline(lm(y~x), col="red")
+cor(x,y)^2
+```
+
+New functions:
+
+- cophenetic() in {stats} package: computes distances between the tips of the trees
+
+The graph can be read similarly to a QQ plot, so the Neighbor-Joining tree is a good representation of our genetic distances.
+
+Let's try one of the other trees that we made in a previous example, using the UPGMA method.
+```{r step 3 UPGMA tree}
+tre3 <- as.phylo(hclust(D,method="average"))
+y <- as.vector(as.dist(cophenetic(tre3)))
+plot(x, y, xlab="original pairwise distances", ylab="pairwise distances on the tree", main="Is UPGMA appropriate?", pch=20, col=transp("black",.1), cex=3)
+abline(lm(y~x), col="red")
+cor(x,y)^2
+```
+
+From this graph, we can tell that UPGMA wouldn't be a great choice. As a reminder, here's the UPGMA based tree:
+```{r UPGMA tree}
+plot(tre3, cex=.5)
+title("UPGMA tree")
+```
+
+This tree is called an **ultrametric** tree, meaning that we assume that all isolates have gone through the same amount of evolution (which is usually not true, especially in this case when our isolates are coming from several different years).
+
+###Bootstrapping
+Similar to all other instances when we've used bootstrapping before, here, bootstrapping a phylogeny can be used to validate the tree. 
+
+To validate our tree, we sample our nucleotides with replacement and rebuild the tree. If our tree is appropriate, the nodes in the original tree and the nodes in the bootstrapped tree should be the same. 
+
+```{r bootstrapping}
+myBoots <- boot.phylo(tre2, dna, function(e) root(nj(dist.dna(e, model = "TN93")),1))
+myBoots
+plot(tre2, show.tip=FALSE, edge.width=2)
+title("NJ tree + bootstrap values")
+tiplabels(frame="none", pch=20, col=transp(num2col(annot$year, col.pal=myPal),.7), cex=3, fg="transparent")
+16
+axisPhylo()
+temp <- pretty(1993:2008, 5)
+legend("topright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=2)
+nodelabels(myBoots, cex=.6)
+```
+
+New functions:
+
+- bootphylo() in {ape} package: performs the bootstrap automatically for us
+
+- nodelabels() in {ape} package: adds labels to or near the nodes, pretty self explanatory
+
+The numbers shown by nodelabels() is just the number of times each node appeared in the bootstrapped trees (remember, bootstrapping means that we're running the analysis numerous times, not just recreating the tree once). Let's assume bootstrapping recreated the phylogeny 1000 times. The numbers by each node are pretty low, meaning there's not a huge overlap between the nodes in our original tree and the nodes in the bootstrapped tree. What does this mean? Basically, it means that some of the nodes aren't supported. 
+
+How do we overcome this and fix our tree? We can collapse some of the smaller branches, which will make the tree less informative but more concrete.
+```{r collapsing branches}
+temp <- tre2
+N <- length(tre2$tip.label)
+toCollapse <- match(which(myBoots<70)+N, temp$edge[,2])
+temp$edge.length[toCollapse] <- 0
+tre3 <- di2multi(temp, tol=0.00001)
+plot(tre3, show.tip=FALSE, edge.width=2)
+title("NJ tree after collapsing weak nodes")
+tiplabels(tre3$tip.label, bg=transp(num2col(annot$year, col.pal=myPal),.7), cex=.5, fg="transparent")
+axisPhylo()
+temp <- pretty(1993:2008, 5)
+legend("topright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=2)
+```
+
 # Maximum parsimony
 
 > Note: if you haven't already, make sure to install the package "phangorn". 
