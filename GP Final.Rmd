@@ -81,8 +81,15 @@ Distance based phylogenetic trees are pretty much exactly what they sound like: 
 Maximum parisomy phylo trees aim to minimize the number of character-state changes in a tree. Thus, this usually produces the simplest possible trees with the least amount of branches (i.e. character-state changes). The method is composed of 1) initiating an algorithm using a tree and 2) making small changes to the tree by simplifying relationships until we are left with the most parsimonious tree and no futher simplifications can be made.
 
 ### Likelihood-based
-    explanation...
-    FIGURES
+Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. Mathematically this is represented as:
+
+P(D|M)
+
+Where P = probability, D = observed data, and M = model
+
+A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased. 
+
+Maximum Likelihood favors minimizing the number of mutations at "internal nodes", AKA divergence points, inside a tree. This is based on the assumption that the fewest number of possible substitutions to get from sequence version A to sequence version B is most likely what actually happened. In reality this is not always true of course.
 
 *****
 
@@ -167,15 +174,6 @@ legend("bottomright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, nc
 Again, our tree is unrooted and has no branch lengths. We can likely attribute the similarity in results in our parsimonious tree to the other methods we used before to the fact that there is little divergence between the sequences in our data.
 
 # Maximum Likelihood-based
-
-Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. Mathematically this is represented as:
-
-P(D|M)
-
-Where P = probability, D = observed data, and M = model
-
-A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased. 
-
 Let's prepare to build a maximum likelihood tree. Import the influenza data set and annotations from above if you haven't already.
 
 First, we build a simple neighbor-joining tree that we can hand to the ape package in order to turn it into maximum likelihood

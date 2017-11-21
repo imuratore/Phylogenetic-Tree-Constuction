@@ -305,8 +305,11 @@ div.tocify {
 </div>
 <div id="likelihood-based" class="section level3">
 <h3>Likelihood-based</h3>
-<pre><code>explanation...
-FIGURES</code></pre>
+<p>Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. Mathematically this is represented as:</p>
+<p>P(D|M)</p>
+<p>Where P = probability, D = observed data, and M = model</p>
+<p>A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased.</p>
+<p>Maximum Likelihood favors minimizing the number of mutations at “internal nodes”, AKA divergence points, inside a tree. This is based on the assumption that the fewest number of possible substitutions to get from sequence version A to sequence version B is most likely what actually happened. In reality this is not always true of course.</p>
 <hr />
 </div>
 </div>
@@ -520,10 +523,6 @@ legend(&quot;bottomright&quot;, fill=transp(num2col(temp, col.pal=myPal),.7), le
 </div>
 <div id="maximum-likelihood-based" class="section level1">
 <h1>Maximum Likelihood-based</h1>
-<p>Maximum likelihood is considered a type of likelihood based tree construction, a group to which Bayesian methods also belong. Maximum likelihood maximizes the chances of collecting the data set in question given that the calculated tree, along with parameters describing evolutionary rules, are true. Mathematically this is represented as:</p>
-<p>P(D|M)</p>
-<p>Where P = probability, D = observed data, and M = model</p>
-<p>A common way of understanding this approach is to use an observed set of coin flips to say whether this outcome is more likely under the model that the coin is fair, or that it is biased.</p>
 <p>Let’s prepare to build a maximum likelihood tree. Import the influenza data set and annotations from above if you haven’t already.</p>
 <p>First, we build a simple neighbor-joining tree that we can hand to the ape package in order to turn it into maximum likelihood</p>
 <p>The genetic distances between flu strains are here calculated using a model published by Tamura and Nei (1993). This model says that transitions (purine to purine or pyrimidine to pyrimidine) and transversions (purine to pyrimidine or vice versa) may happen at different rates, that not every nucleotide appears at the same frequency, and that the rate of substitution can vary between different regions of the sequence. Alternatives to this model include the Jukes-Cantor model in which all types of nucleotide substitutions are equally probable.</p>
