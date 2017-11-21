@@ -101,7 +101,7 @@ Maximum parisomy phylo trees aim to minimize the number of character-state chang
 We're using the DNA sequences for a set of different influenza strains collected from 1993 to 2008 in the US (get your flu shot every year!)
 
 This data can be downloaded from Genbank [here](http://www.ncbi.nlm.nih.gov/genbank/). The data is organized into two files: 1) the [DNA sequences](http://adegenet.r-forge.r-project.org/files/usflu.fasta) and 2) the [annotations](http://adegenet.r-forge.r-project.org/files/usflu.annot.
-csv). We'll start by loading the DNA sequences data using the function fasta2DNAbin() from the adegenet package. FASTA is a universally used sequence file format that is here converted to the format used by the phangorn package. Let's name this datafram dna. We can call this dataframe and see that it is organized in a matrix in binary format and contains 80 DNA sequences...
+csv). We'll start by loading the DNA sequences data using the function fasta2DNAbin() from the adegenet package. FASTA is a universally used sequence file format that we will later convert to the format used by the phangorn package. Let's name this dataframe dna. We can call this dataframe and see that it is organized in a matrix in binary format and contains 80 DNA sequences...
 ```{r}
 library(adegenet)
 dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
@@ -111,6 +111,7 @@ dna
 We can read in the annotation file in R using the following code:
 ```{r}
 annot <- read.csv("http://adegenet.r-forge.r-project.org/files/usflu.annot.csv", header=TRUE, row.names=1)
+annot
 ```
 
 
