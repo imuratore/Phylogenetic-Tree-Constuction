@@ -33,8 +33,6 @@ Phylogenetic (phylo) trees..."I think"
 
 ![](https://i.stack.imgur.com/ahJk5.jpg)
 
-Phylo trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. In phylogenetics, phylo tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences.
-
 Phylogenetic trees are useful diagrams which show inferred evolutionary relationships of a set of organisms, or a set of traits within a group of organisms. Phylogenetic tree reconstructions are made from analysis of observed heritable traits, commonly DNA sequences, previously morphological characters, in order to estimate common ancestors between taxa and sometimes times of divergence. Trees can represent evolutionary divergence according to information from entire genomes, or from one gene or a set of genes. Commonly, the so-called DNA barcode, part of the sequence for the highly conserved cytochrome oxidase subunit one has been single-handedly used to construct trees. This electron transport chain component is useful because very few mutations persist in fit organisms, so those that stick are very solid predictors of differences between lineages. 
 
 Almost all phylogenetics methods start with a distance matrix in which differences between taxa are estimated by summing discrepancies in nucleotides or quantified morphological characters:
@@ -52,6 +50,9 @@ Towards the latter half of the 20th century, most biologist began to agree that 
 ### Nerd Drama
 
 One such conflict has been called ["Parsimony-gate"](https://www.wired.com/2016/02/twitter-nerd-fight-reveals-a-long-bizarre-scientific-feud/). This involved the traditionalist editors of the well-known journal "Cladistics" publishing an editorial discouraging the use of Bayesian methods in journal submissions when parsimony could be used. Subsequently, many biologists criticized the article on twitter, only to receive aggressive responses from the original author. 
+
+
+![](https://images.gr-assets.com/hostedimages/1406924837ra/10618636.gif)
 
 *****
 
@@ -114,6 +115,10 @@ library(adegenet)
 dna <- fasta2DNAbin(file="http://adegenet.r-forge.r-project.org/files/usflu.fasta")
 dna
 ```
+
+Flus evolve rapidly compared to some other viruses, and this occurs mostly due to mutations accumulated in the membrane proteins. We will see whether this fact shapes how our trees turn out. 
+
+![](http://homepage.usask.ca/~vim458/virology/studpages2009/H1N1/Images/shift.jpg)
 
 We can read in the annotation file in R using the following code:
 ```{r}
@@ -433,10 +438,11 @@ legend("topright", fill=transp(num2col(temp, col.pal=myPal),.7), leg=temp, ncol=
 
 ```
 
+Since we know flus evolve rapidly, this tree shape makes sense and reflects the accumulation of successive mutations over a short period of time. Fast evolving organisms can be very useful for studying evolutionary processes within the lifetime of a single professor. 
 
 *****
 
-# Additional Resources and Useful Links
+# References used
 * [Introduction to phylogenetics using R](http://adegenet.r-forge.r-project.org/files/MSc-intro-phylo.1.1.pdf)
 * [Phylogenetic trees in R: Lars Schmitz](http://schmitzlab.info/phylo.html)
 * [Data wrangling cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
