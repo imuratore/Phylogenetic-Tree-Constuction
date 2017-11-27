@@ -163,6 +163,10 @@ New functions:
 That was step 1 in its entirety, so it's pretty easy because we have a nice function that computes all of our distances for us. The darker colors indicate larger distances, so, while we have some data about the genetic differences between a pair of species, we aren't quite ready to draw massive conclusions yet.
 
 ##Step 2
+
+
+![](https://media.giphy.com/media/3osBLyuYM8tXH0yKD6/giphy.gif)
+
 Building the tree generally just gives us a better visual understanding of what's going on. As I mentioned previously, the figure from Step 1 shows us that there is a trend or pattern of some sort, but it's difficult to get more than that just from the figure. On the other hand, we can't always assume that a tree is the best or most efficient representation of our genetic distances.
 
 R has a ton of algorithm options for us to choose from to make our tree (New functions):
